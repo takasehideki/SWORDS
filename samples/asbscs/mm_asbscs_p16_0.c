@@ -1,3 +1,4 @@
+#include "xtime_l.h"
 #define PROJECT "mm_asbscs_p16_0"
 #define P 32
 
@@ -33,7 +34,7 @@ int matrixmul(int a[P][P], int b[P][P], int c[P][P]){
 int main()
 {
 
-	int tmp1,tmp2,tmp3,tmp4,tmp5,tmp6;
+	XTime tmp1,tmp2,tmp3,tmp4,tmp5;
 
     init_platform();
 
@@ -56,31 +57,23 @@ int main()
     	}
     }
 
-    target_timer_initialize();
-
-    tmp1 = target_timer_get_current();
+    XTime_GetTime(&tmp1);
 
     matrixmul_interrupt(a,b,c);
 
-    tmp2 = target_timer_get_current();
-
-    target_timer_initialize();
-
-    tmp3 = target_timer_get_current();
+    XTime_GetTime(&tmp2);
 
     matrixmul(a,b,d);
 
-    tmp4 = target_timer_get_current();
+    XTime_GetTime(&tmp3);
 
     Xil_DCacheEnable();
 
-    target_timer_initialize();
-
-    tmp5 = target_timer_get_current();
+    XTime_GetTime(&tmp4);
 
     matrixmul_soft(a,b,e);
 
-    tmp6 = target_timer_get_current();
+    XTime_GetTime(&tmp5);
 
     for (i = 0;i < P;i++){
         for (j = 0; j < P;j++){
@@ -95,9 +88,9 @@ int main()
     }
 
 
-    printf("hard interr time:%d\n",tmp2 - tmp1);
-    printf("hard poling time:%d\n",tmp4 - tmp3);
-    printf("soft time:%d\n",tmp6 - tmp5);
+    printf("hard interr time:%.2f us.\n",  1.0 * (tmp2 - tmp1) / (COUNTS_PER_SECOND/1000000));
+    printf("hard poling time:%.2f us.\n",  1.0 * (tmp3 - tmp2) / (COUNTS_PER_SECOND/1000000));
+    printf("soft time:%.2f us.\n",  1.0 * (tmp5 - tmp4) / (COUNTS_PER_SECOND/1000000));
 
     printf("(%s)\n\r",PROJECT);
 

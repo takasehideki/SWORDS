@@ -50,7 +50,7 @@ def generateexetcl(cfile_apth, project_name, toplevel_function_name):
 
     tclfile_content = ""
 
-    tclfile_content += "sdk set_workspace %s_vivado/%s.sdk\n" % (project_name, project_name)
+    tclfile_content += "sdk setws %s_vivado/%s.sdk\n" % (project_name, project_name)
     tclfile_content += "connect\n"
     tclfile_content += "targets 2\n"
     tclfile_content += "rst -processor\n"
@@ -69,7 +69,7 @@ def generateconfigtcl(cfile_apth, project_name, toplevel_function_name):
 
     tclfile_content = ""
 
-    tclfile_content += "sdk set_workspace %s_vivado/%s.sdk\n" % (project_name, project_name)
+    tclfile_content += "sdk setws %s_vivado/%s.sdk\n" % (project_name, project_name)
     tclfile_content += "connect\n"
     tclfile_content += "fpga %s_vivado/%s.sdk/%s_hw_platform_0/%s.bit\n" % (project_name, project_name, system_wrapper, system_wrapper)
     tclfile_content += "exit\n"

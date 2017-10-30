@@ -50,11 +50,11 @@ def generatebuildtcl(cfile_apth, project_name, toplevel_function_name):
 
     tclfile_content = ""
 
-    tclfile_content += "sdk set_workspace %s_vivado/%s.sdk\n" % (project_name, project_name)
-    tclfile_content += "sdk create_hw_project -name %s_hw_platform_0 -hwspec %s_vivado/%s.sdk/%s.hdf\n" % (system_wrapper, project_name, project_name, system_wrapper)
-    tclfile_content += "sdk create_app_project -name %s -proc ps7_cortexa9_0 -os standalone -hwproject %s_hw_platform_0 -lang c\n" % (project_name, system_wrapper)
-    tclfile_content += "sdk import_sources -name %s -path software -linker-script\n" % (project_name)
-    tclfile_content += "sdk build_project -name %s\n" % (project_name)
+    tclfile_content += "sdk setws %s_vivado/%s.sdk\n" % (project_name, project_name)
+    tclfile_content += "sdk createhw -name %s_hw_platform_0 -hwspec %s_vivado/%s.sdk/%s.hdf\n" % (system_wrapper, project_name, project_name, system_wrapper)
+    tclfile_content += "sdk createapp -name %s -proc ps7_cortexa9_0 -os standalone -hwproject %s_hw_platform_0 -lang c\n" % (project_name, system_wrapper)
+    tclfile_content += "sdk importsources -name %s -path software -linker-script\n" % (project_name)
+    tclfile_content += "sdk projects -type app -build -name %s\n" % (project_name)
     tclfile_content += "exit\n"
 
     return tclfile_content
@@ -65,7 +65,7 @@ def generateexetcl(cfile_apth, project_name, toplevel_function_name):
 
     tclfile_content = ""
 
-    tclfile_content += "sdk set_workspace %s_vivado/%s.sdk\n" % (project_name, project_name)
+    tclfile_content += "sdk setws %s_vivado/%s.sdk\n" % (project_name, project_name)
     tclfile_content += "connect\n"
     tclfile_content += "targets 2\n"
     tclfile_content += "rst -processor\n"
@@ -84,7 +84,7 @@ def generateconfigtcl(cfile_apth, project_name, toplevel_function_name):
 
     tclfile_content = ""
 
-    tclfile_content += "sdk set_workspace %s_vivado/%s.sdk\n" % (project_name, project_name)
+    tclfile_content += "sdk setws %s_vivado/%s.sdk\n" % (project_name, project_name)
     tclfile_content += "connect\n"
     tclfile_content += "fpga %s_vivado/%s.sdk/%s_hw_platform_0/%s.bit\n" % (project_name, project_name, system_wrapper, system_wrapper)
     tclfile_content += "exit\n"
